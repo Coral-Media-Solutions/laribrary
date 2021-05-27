@@ -1,3 +1,4 @@
+## Laravel's default .gitignore
 /node_modules
 /public/hot
 /public/storage
@@ -11,5 +12,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+## Custom added files
 _ide_helper.php
 .idea
+.phpstorm.meta.php
