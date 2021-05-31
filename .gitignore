@@ -14,6 +14,7 @@ npm-debug.log
 yarn-error.log
 
 ## Custom added files
-_ide_helper.php
+/_ide_helper.php
+/_ide_helper_models.php
 .idea
 .phpstorm.meta.php
