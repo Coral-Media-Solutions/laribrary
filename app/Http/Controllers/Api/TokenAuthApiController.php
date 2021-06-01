@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +13,9 @@ class TokenAuthApiController extends Controller
 {
     public function tokenAction(Request $request): JsonResponse
     {
-        if (!\Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Invalid login details'
+                'message' => 'Invalid login details. Check request content-type.'
             ], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -23,7 +24,7 @@ class TokenAuthApiController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json(
-            ['access_token' => $token, 'token_type' => 'Bearer',], Response::HTTP_OK
+            ['success' => true, 'token' => $token, 'type' => 'Bearer',], Response::HTTP_OK
         );
     }
 
