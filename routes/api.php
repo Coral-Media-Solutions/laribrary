@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TokenAuthApiController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,16 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/token', [TokenAuthApiController::class, 'tokenAction']);
+Route::post('/token', [TokenAuthApiController::class, 'generateToken']);
 
 Route::group(
     ['middleware' => 'auth:sanctum'],
     function() {
-        Route::get(
-            '/token/revoke', [TokenAuthApiController::class, 'revokeTokenAction']
+        Route::get('/token/revoke', [TokenAuthApiController::class, 'revokeToken']);
+        Route::get('/user', [TokenAuthApiController::class, 'currentUser']);
+        Route::apiResources(
+            [
+                'users' => UserController::class
+            ]
         );
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
     }
 );

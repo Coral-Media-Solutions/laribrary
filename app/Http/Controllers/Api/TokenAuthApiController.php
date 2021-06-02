@@ -4,31 +4,42 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class TokenAuthApiController extends Controller
 {
-    public function tokenAction(Request $request): JsonResponse
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function generateToken(Request $request): JsonResponse
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid login details. Check request content-type.'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        $token = $user->createToken('authToken')->plainTextToken;
+        if (! $user || ! Hash::check($request->get('password'), $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user->createToken('bearerToken')->plainTextToken;
 
         return response()->json(
             ['success' => true, 'token' => $token, 'type' => 'Bearer',], Response::HTTP_OK
         );
     }
 
-    public function revokeTokenAction(Request $request): JsonResponse
+    public function revokeToken(Request $request): JsonResponse
     {
         /**
          * @var User $user
@@ -37,5 +48,10 @@ class TokenAuthApiController extends Controller
         $user->tokens()->delete();
         return response()->json(['success' => true], Response::HTTP_OK);
 
+    }
+
+    public function currentUser(Request $request): JsonResponse
+    {
+        return response()->json($request->user());
     }
 }
