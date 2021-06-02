@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use DateTimeInterface;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
  * @property DateTimeInterface created_at
  * @property DateTimeInterface updated_at
  */
-class UserCollection extends ResourceCollection
+class UserResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

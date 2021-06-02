@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use DateTimeInterface;
 use Illuminate\Http\Request;
@@ -18,6 +18,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class UserResource extends JsonResource
 {
+    /**
+     * @var string
+     */
     public static $wrap = 'user';
 
     /**
