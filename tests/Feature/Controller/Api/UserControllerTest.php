@@ -93,7 +93,8 @@ class UserControllerTest extends TestCase
             Request::METHOD_PATCH, '/api/users/1',
             [
                 'name' => 'test1',
-                'email' => 'test@example.com'
+                'email' => 'test@example.com',
+                'password' => 'test1@2021'
             ]
         );
 
