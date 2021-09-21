@@ -37,7 +37,8 @@ class UserControllerTest extends TestCase
         Sanctum::actingAs($this->user, ['*']);
 
         $response = $this->json(
-            Request::METHOD_POST, '/api/users',
+            Request::METHOD_POST,
+            '/api/users',
             [
                 'name' => 'test2',
                 'email' => 'test2@example.com',
@@ -69,7 +70,8 @@ class UserControllerTest extends TestCase
         ]);
 
         $response = $this->json(
-            Request::METHOD_GET, '/api/users/2'
+            Request::METHOD_GET,
+            '/api/users/2'
         );
 
         $response->assertStatus(Response::HTTP_OK)
@@ -90,7 +92,8 @@ class UserControllerTest extends TestCase
         Sanctum::actingAs($this->user, ['*']);
 
         $response = $this->json(
-            Request::METHOD_PATCH, '/api/users/1',
+            Request::METHOD_PATCH,
+            '/api/users/1',
             [
                 'name' => 'test1',
                 'email' => 'test@example.com',
@@ -118,6 +121,5 @@ class UserControllerTest extends TestCase
         $response = $this->json(Request::METHOD_DELETE, '/api/users/1');
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-
     }
 }
